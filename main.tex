@@ -1,0 +1,311 @@
+\documentclass[aspectratio=149,11pt]{beamer}
+\usetheme{CERNship}
+\graphicspath{{figs/}}
+% Style: plot-centred, <= 3 short bullets per figure, one grey \slidenote.
+% Source: Veto_Status_Report (status of 10 Nov 2026, Veto_System PR #15).
+
+\newcommand{\tagsolid}{\textcolor{green!45!black}{\textbf{solid}}}
+\newcommand{\tagest}{\textcolor{cernorange}{\textbf{estimate}}}
+\newcommand{\tagopen}{\textcolor{cernorange}{\textbf{open}}}
+
+\title{Veto background: status report}
+\subtitle{Background budget for \texttt{D6\_straw\_mod} after PR \#15 and the V0-production check}
+\shorttitle{Veto status}
+\author{\underline{Guglielmo Frisella}\,\textsuperscript{1, 2}}
+\institute{\textsuperscript{1}University of Zurich\\[2pt]
+           \textsuperscript{2}European Organization for Nuclear Research (CERN)}
+\date{November 16, 2026}
+
+\begin{document}
+
+\cernCover
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% ============================================================
+\section{Setup and conventions}
+% ============================================================
+\begin{frame}{Layout, normalisation and selection}
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \small
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item FairShip layout 2026-0.1 (since 5 Nov), target-aligned frame
+        \item \SI{4e13}{PoT} per spill; 15\,y $=$ \num{1.5e7} spills
+        \item Transport: cuda-muons (TRY6 shield, field, rock)
+        \item Selection: $\geq 2$ good tracks at SST1, IP $<\SI{10}{cm}$
+        \item Veto levels: b (reco hits), c (truth)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.41\textwidth}
+      \footnotesize
+      \begin{tabular}{@{}l@{\hspace{4pt}}r@{}}
+        \toprule
+        Shield end        & \SI{29.89}{m} \\
+        Vessel            & 31.13--\SI{81.13}{m} \\
+        Straw stations    & 82.08 / 84.08 / \\
+                          & 91.08 / \SI{93.08}{m} \\
+        Timing detector   & \SI{94.01}{m} \\
+        \midrule
+        $\mu$ from target & \num{4.69e10} / spill \\
+        $\mu$ at \SI{30.6}{m} & \num{3.11e9} / spill \\
+        $\mu$ at SST1     & $\sim$\num{3e4} / spill \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \slidenote{Rates per spill of \SI{4e13}{PoT} ($=$ kHz at \SI{4e13}{PoT/s}); yields per 15 years (\SI{6e20}{PoT}). Reference design: \texttt{D6\_straw\_mod}.}
+\end{frame}
+
+\begin{frame}{Muon source: forced vs analog production}
+  \centering
+  \includegraphics[width=0.96\textwidth]{complete_validation.png}
+  \begin{itemize}\footnotesize
+    \item Nov-4 source: Pythia 8.223 + Geant4 11.2, every muon source forced and weighted, $p > \SI{10}{GeV}$
+    \item 27 species within $2\sigma$ of unforced production; full events $1.003 \pm 0.005$
+    \item 2018 FairShip files reproduced to 1--3\,\%, but they lack 22--24\,\% of the flux ($\eta$, $\omega$ Dalitz)
+  \end{itemize}
+\end{frame}
+
+% ============================================================
+\section{MS7 shield DIS $\to K_L$}
+% ============================================================
+\begin{frame}{MS7 DIS chain and cross sections}
+  \centering
+  \begin{minipage}[c]{0.36\textwidth}\centering
+    \includegraphics[width=\textwidth]{dis_chain_overview.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.60\textwidth}\centering
+    \includegraphics[width=\textwidth]{dis_sigma_generators.pdf}
+  \end{minipage}
+  \slidenote{Left: muons in the last \SI{50}{cm} of MS7 iron, forced muon-nuclear interaction, Geant4 to the exit plane ($z = \SI{29.90}{m}$), every $K_L$, $K_S$, $\Lambda$, $\Xi^0$ forced to decay in the vessel. Right: $\sigma$ per nucleon in iron; Geant4 muonNuclear includes the soft photonuclear part, Pythia only DIS.}
+\end{frame}
+
+\begin{frame}{$K_L$ from MS7 after the selection}
+  \begin{columns}[T]
+    \begin{column}{0.42\textwidth}
+      \headline{1.5 \times 10^{4}}{}{selected $K_L$ per 15 y, not vetoable (range 1--\num{2e4})}
+      \footnotesize
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        DIS / spill & \num{7.94e5} \\
+        V0 decays in vessel & \num{2.33e10} \\
+        All cuts but IP & \num{1.4e7} \\
+        IP $< \SI{1}{m}$ & \num{2.1e6} \\
+        Re-decays: selected & \num{1.39e4} \\
+        \quad after veto & \num{9.7e3} \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.53\textwidth}
+      \includegraphics[width=\textwidth]{kl_q2w_A_geant4_11.2.pdf}
+    \end{column}
+  \end{columns}
+  \slidenote{IP$^2$ extrapolation of the IP tail, confirmed by 100 re-decays (13 MC events). Right: $Q^2$, $W$ of the interactions making the $K_L$ (98\,\% at $Q^2 < \SI{1}{GeV^2}$).}
+\end{frame}
+
+\begin{frame}{Chain vs natural Geant4 at the iron exit}
+  \begin{columns}[T]
+    \begin{column}{0.50\textwidth}
+      \small
+      \begin{itemize}\setlength{\itemsep}{3pt}
+        \item Chain reproduces natural Geant4 for $K_L$, $\pi$, $K^\pm$ \tagsolid
+        \item $K_S$/$\Lambda$ low: decayed at the vertex (D9); none selected when kept
+        \item \tagopen{} FairShip full sim: 0 MS7 $K^0$ tracks, chain expects 7.9 ($P(0) = \num{4e-4}$)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \footnotesize
+      Per spill, $p > \SI{1}{GeV}$\\[2pt]
+      \begin{tabular}{@{}lrr@{}}
+        \toprule
+         & natural FTFP & chain \\
+        \midrule
+        $K_L$         & $3686 \pm 130$ & 3387 \\
+        $\pi^\pm$     & \num{92970} & \num{93090} \\
+        $K^\pm$       & 7108 & 6704 \\
+        $K_S$         & 1522 & 582 \\
+        $\Lambda$     & 915  & 286 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \slidenote{Natural Geant4 10.7.3 (no forcing) vs the forced chain with Geant4 10.7. FairShip gap not the generator, physics list or muon-nuclear definition; next: small FairShip run with our MS7 parents.}
+\end{frame}
+
+% ============================================================
+\section{V0 production vs data}
+% ============================================================
+\begin{frame}{V0 multiplicity vs $W$: generators and $\gamma p$ data}
+  \centering
+  \includegraphics[width=0.92\textwidth]{v0_vs_W.pdf}
+  \begin{itemize}\footnotesize
+    \item At $W = \SI{6.2}{GeV}$: Geant4 within $\sim$6\,\% of $\gamma p$ data, Pythia 6 $\times 1.9$ high
+    \item Geant4 median $W = \SI{1.3}{GeV}$: only $\sim$1\,\% of interactions make a V0
+  \end{itemize}
+  \slidenote{Left: mean V0 per interaction, Geant4 (solid), Pythia 6 (dashed); stars: $\gamma p$ at $E_\gamma = \SI{20}{GeV}$ (SLAC SHF). Right: $W$ of the library events.}
+\end{frame}
+
+\begin{frame}{Low $W$ (1.6--\SI{3.5}{GeV})}
+  \centering
+  \includegraphics[width=0.92\textwidth]{v0_lowW.pdf}
+  \begin{itemize}\footnotesize
+    \item Geant4 low by $\geq \times 2$--3 near threshold (data are lower limits) \tagopen
+    \item Only 7.6\,\% of the relevant $K_L$ from $W < \SI{3.5}{GeV}$: $+8$--15\,\% on the $K_L$ \tagest
+  \end{itemize}
+  \slidenote{Data: SAPHIR, CLAS exclusive $KY$; ABBHHM and SLAC inclusive, normalised to $\sigma_\mathrm{tot}$. $W = 3.5$--\SI{5}{GeV} (14\,\% of the $K_L$) not yet compared.}
+\end{frame}
+
+\begin{frame}{DIS region ($Q^2 > \SI{1}{GeV^2}$): $K^\pm$ vs COMPASS}
+  \centering
+  \includegraphics[width=0.92\textwidth]{kdis_compass.pdf}
+  \begin{itemize}\footnotesize
+    \item Pythia 6 and 8 within $\sim$10\,\% of COMPASS and HERMES
+    \item Geant4 $\times 3$--4 low (no current jet), but only 2\,\% of its $K_L$ at $Q^2 > 1$: $\lesssim 2\,\%$
+  \end{itemize}
+  \slidenote{COMPASS \SI{160}{GeV} $\mu$ on $^6$LiD, $W > \SI{5}{GeV}$, $0.2 < z < 0.85$. Left: $M^{K^+} + M^{K^-}$ vs $x$; right: MC/data summed over bins. HERMES (\SI{27.6}{GeV} $e$ on D): Geant4 0.24, Pythia 6 1.07, Pythia 8 0.89.}
+\end{frame}
+
+\begin{frame}{Every V0 made in the iron and its fate}
+  \centering
+  \includegraphics[width=0.92\textwidth]{v0_fate_bars.pdf}
+  \begin{itemize}\footnotesize
+    \item \num{1.5e4} $K_L$ made per spill: half at the muon vertex, half in the hadronic shower \tagsolid
+    \item $K_L$ at the exit: \num{3.2e3} per spill, 63\,\% vertex, 37\,\% shower
+  \end{itemize}
+  \slidenote{Geant4 11.4.2 V0 tally in the last \SI{50}{cm} of MS7. Left: default library; right: V0-stable. Shower V0 are soft (median $p \sim \SI{0.8}{GeV}$), mostly below the \SI{0.5}{GeV} tracking cut.}
+\end{frame}
+
+% ============================================================
+\section{Vessel DIS, neutrinos, combinatorial}
+% ============================================================
+\begin{frame}{Muon DIS in the vessel}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \headline{472}{}{muon DIS in the helium per 15 y, after the veto}
+      \small
+      \begin{itemize}
+        \item Second source after the MS7 $K_L$
+        \item Side-entry muons: coverage gap of the straw design
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.51\textwidth}
+      \footnotesize
+      \vspace{0.4cm}
+      \begin{tabular}{@{}lrrr@{}}
+        \toprule
+        Target & selected & veto b & truth c \\
+        \midrule
+        Helium       & 1820 & 472 & 673 \\
+        Walls (Mylar) & 176 & 44 & -- \\
+        \bottomrule
+      \end{tabular}\\[6pt]
+      Per 15 y, \texttt{D6\_straw\_mod}, Nov-4 muons
+    \end{column}
+  \end{columns}
+  \slidenote{Correction of 10 Nov: the helium DIS was believed small. At truth level the parent crossed no veto plane. Statistics: helium OK, walls lacking (22 per MC event). \tagest}
+\end{frame}
+
+\begin{frame}{Neutrino DIS: vessel and MS7}
+  \begin{columns}[T]
+    \begin{column}{0.40\textwidth}
+      \headline{\sim 2.5}{}{neutrinos per 15 y after the veto (Geant4 downstream)}
+      \small
+      \begin{itemize}
+        \item Irreducible for an upstream veto
+        \item Lateral veto could remove 77\,\% of helium ones \tagopen
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.56\textwidth}
+      \footnotesize
+      \begin{tabular}{@{}lrrr@{}}
+        \toprule
+         & selected & straight & G4 \\
+        \midrule
+        $\nu_\mu$         & 1.25 & 1.02 & 0.48 \\
+        $\bar\nu_\mu$     & 0.57 & 0.51 & 0.26 \\
+        $\nu_e$           & 1.57 & 1.37 & 0.61 \\
+        $\bar\nu_e$       & 0.43 & 0.39 & 0.18 \\
+        $\nu_\tau + \bar\nu_\tau$ & 0.05 & 0.04 & 0.01 \\
+        \midrule
+        \textbf{Vessel}   & 3.9 & 3.3 & \textbf{1.5} \\
+        \textbf{MS7 iron} & 3.9 & 2.4 & \textbf{1.0} \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \slidenote{Per 15 y; ``straight'' and ``G4'': after veto b, products as straight lines or through Geant4. 2026 flux (validated vs GSimple 2026 and SHiP 2025 SND rates) with GENIE 3.06.02. \tagsolid}
+\end{frame}
+
+\begin{frame}{Muon combinatorial pairs}
+  \centering
+  \footnotesize
+  \begin{tabular}{@{}lrrr@{}}
+    \toprule
+    Inputs & candidates & IP $< \SI{10}{cm}$ & after veto \\
+    \midrule
+    Nov-4, $\mu \times \mu$     & 2.86 & -- & \textbf{0.014} \\
+    dataset c, $\mu \times \mu$ & 852 & 405 & 51 \\
+    dataset c, $\mu \times$ rock & 8190 & 2927 & 0.023 \\
+    \bottomrule
+  \end{tabular}\\[4pt]
+  \includegraphics[width=0.88\textwidth]{d5_summary.png}
+  \slidenote{Per 15 y. $\times 140$ between datasets is not the layout: dataset c has 3--4$\times$ more near-axis muons at 30--\SI{100}{GeV}, rate $\propto$ square. Which source tail is right is open (D5). \tagopen}
+\end{frame}
+
+\begin{frame}{Cavern rock and EM debris}
+  \centering
+  \includegraphics[width=0.92\textwidth]{em_debris.png}
+  \begin{itemize}\footnotesize
+    \item Rock: 0 selected (best-pair IP $\geq \SI{12.6}{m}$); bound by geometry, statistically only $< \num{1.6e8}$ \tagest
+    \item EM debris as accidental hits: combinatorial $0.014 \to 0.003$, signal loss $6.4 \to 7.5\,\%$
+  \end{itemize}
+  \slidenote{Probability of a charged secondary $> \SI{1}{MeV}$ behind iron vs muon energy, at 0, 1 and \SI{5}{m}: 7.5--23\,\% behind \SI{1}{m}.}
+\end{frame}
+
+% ============================================================
+\section{Summary}
+% ============================================================
+\begin{frame}{Background budget per 15 years (\texttt{D6\_straw\_mod})}
+  \centering
+  \footnotesize
+  \begin{tabular}{@{}lrl@{}}
+    \toprule
+    Source & after veto & \\
+    \midrule
+    MS7 muon DIS $\to K_L$         & $\mathbf{\sim 1.5 \times 10^{4}}$ & \tagest, \tagopen \\
+    Muon DIS in the helium         & 472   & \tagest \\
+    Muon DIS in the vessel walls   & 44    & \tagest \\
+    Neutrino DIS in the vessel     & 1.5   & \tagsolid \\
+    Neutrino DIS in MS7            & 1.0   & \tagsolid \\
+    Muon combinatorial             & 0.014 & \tagopen \\
+    $\mu \times$ rock tracks       & 0.023 & \tagest \\
+    Cavern rock DIS ($\mu$, $\nu$) & 0     & \tagest \\
+    \bottomrule
+  \end{tabular}
+  \slidenote{After the full selection and veto level b. EM debris enters only as accidental hits (signal loss $6.4 \to 7.5\,\%$). solid: checked by an independent method; estimate: extrapolated or model-dependent; open: known disagreement.}
+\end{frame}
+
+\begin{frame}{Summary}
+  \begin{itemize}
+    \item MS7 $K_L$ dominates: \textbf{$\sim$\num{1.5e4} per 15 y}, $\times 30$ above the next source
+    \item Geant4 $K_L$ production validated vs natural Geant4 and $\gamma p$ data ($\sim$6\,\%)
+    \item Muon DIS in the helium: \textbf{472 per 15 y}, a side-entry coverage gap
+    \item Neutrinos \textbf{$\sim$2.5 per 15 y}; combinatorial 0.014 (dataset c: 51, D5 open)
+  \end{itemize}
+  \vspace{0.3cm}
+  \textbf{Next steps}
+  \begin{itemize}
+    \item D3: small FairShip run with our MS7 parents; $K_L$-enriched generation (13 MC events now)
+    \item D5: decide which muon source tail is right
+    \item Re-run batch in the FairShip layout at \SI{4e13}{PoT}; lateral veto for neutrinos (D2)
+  \end{itemize}
+\end{frame}
+
+\end{document}

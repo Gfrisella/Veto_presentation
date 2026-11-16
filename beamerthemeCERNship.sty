@@ -1,0 +1,143 @@
+% ============================================================
+% beamerthemeCERNship.sty
+% Guglielmo Frisella's CERN / UZH / SHiP slide theme
+% (reproduces void.pdf: 14:9, CERN-blue titles, blue footer band)
+%
+% Usage:
+%   \documentclass[aspectratio=149,11pt]{beamer}
+%   \usetheme{CERNship}
+%   \shorttitle{...}           % text in the footer (default: \inserttitle)
+%   ...
+%   \cernCover                 % full-blue cover with the CERN logo
+%   \begin{frame}\titlepage\end{frame}
+%
+% Logos are looked up in logos/ next to this file (or on the TeX path):
+%   logos/cern-logo-white.pdf|png   white CERN logo (transparent bg)
+%   logos/void.pdf                  the original template: page 1 is
+%                                   used as cover, the logo is cut from it
+%   logos/uzh-logo-white.png, logos/ship-logo-white.png
+% Missing logos are skipped with a warning, the layout is unchanged.
+% ============================================================
+\ProvidesPackage{beamerthemeCERNship}[2026/10/15]
+
+\RequirePackage{tikz}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{booktabs}
+\RequirePackage{siunitx}
+\sisetup{separate-uncertainty=true,detect-all}
+
+% ---------------- logo directory ----------------
+\def\cern@logodir{logos/}
+\newcommand{\setlogodir}[1]{\def\cern@logodir{#1}}
+
+% ---------------- colours ----------------
+\definecolor{cernblue}{HTML}{0053A1}
+\definecolor{cernfoot}{HTML}{8FAAD0}   % light text on the footer band
+\definecolor{cerngray}{HTML}{4D4D4D}
+\definecolor{cernorange}{HTML}{D55E00} % accent (CVD-safe with cernblue)
+
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=cernblue}
+\setbeamercolor{frametitle}{fg=cernblue}
+\setbeamercolor{title}{fg=cernblue}
+\setbeamercolor{alerted text}{fg=cernorange}
+\setbeamercolor{block title}{fg=white,bg=cernblue}
+\setbeamercolor{block body}{fg=black,bg=cernblue!7}
+\setbeamercolor{item}{fg=cernblue}
+
+% ---------------- fonts & sizes ----------------
+\usefonttheme{default}
+\setbeamerfont{frametitle}{size=\Large}
+\setbeamerfont{title}{size=\LARGE}
+\setbeamerfont{footline}{size=\small}
+\setbeamersize{text margin left=0.69cm,text margin right=0.69cm}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamertemplate{blocks}[rounded][shadow=false]
+
+% ---------------- metadata ----------------
+\def\cern@shorttitle{\inserttitle}
+\newcommand{\shorttitle}[1]{\def\cern@shorttitle{#1}}
+
+% ---------------- logo helpers ----------------
+% \cern@logo{<height>}: white CERN logo
+\newcommand{\cern@logo}[1]{%
+  \IfFileExists{\cern@logodir cern-logo-white.pdf}{\includegraphics[height=#1]{\cern@logodir cern-logo-white.pdf}}{%
+  \IfFileExists{\cern@logodir cern-logo-white.png}{\includegraphics[height=#1]{\cern@logodir cern-logo-white.png}}{%
+  \IfFileExists{\cern@logodir void.pdf}{%
+    % logo cut from page 1 of void.pdf (blue background = footer blue)
+    \includegraphics[page=1,height=#1,viewport=145 62 252 168,clip]{\cern@logodir void.pdf}}{%
+    \PackageWarning{beamerthemeCERNship}{No CERN logo found in \cern@logodir}}}}}
+\newcommand{\cern@uzh}[1]{%
+  \IfFileExists{\cern@logodir uzh-logo-white.png}{\includegraphics[height=#1]{\cern@logodir uzh-logo-white.png}}{}}
+\newcommand{\cern@ship}[1]{%
+  \IfFileExists{\cern@logodir ship-logo-white.png}{\includegraphics[height=#1]{\cern@logodir ship-logo-white.png}}{}}
+
+% ---------------- footer band ----------------
+\newdimen\cern@footheight
+\cern@footheight=1.0cm
+\setbeamertemplate{footline}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[cernblue] (current page.south west) rectangle ([yshift=\cern@footheight]current page.south east);
+    % logos: CERN | UZH | SHiP
+    \node[anchor=west,inner sep=0] at ([xshift=0.15cm,yshift=0.5\cern@footheight]current page.south west) {\cern@logo{0.76cm}};
+    \node[anchor=west,inner sep=0] at ([xshift=1.15cm,yshift=0.5\cern@footheight]current page.south west) {\cern@uzh{0.52cm}};
+    \node[anchor=west,inner sep=0] at ([xshift=3.05cm,yshift=0.5\cern@footheight]current page.south west) {\cern@ship{0.80cm}};
+    % text
+    \node[text=cernfoot,font=\usebeamerfont{footline}] at ([xshift=7.57cm,yshift=0.5\cern@footheight]current page.south west) {\insertdate};
+    \node[text=cernfoot,font=\usebeamerfont{footline}] at ([xshift=11.58cm,yshift=0.5\cern@footheight]current page.south west) {\cern@shorttitle};
+    \node[text=cernfoot,font=\usebeamerfont{footline},anchor=east] at ([xshift=-0.15cm,yshift=0.5\cern@footheight]current page.south east) {\insertframenumber};
+  \end{tikzpicture}%
+  \vspace*{\cern@footheight}%
+}
+
+% ---------------- frame title ----------------
+\setbeamertemplate{frametitle}{%
+  \vspace*{0.30cm}%
+  {\usebeamercolor[fg]{frametitle}\usebeamerfont{frametitle}\insertframetitle\par}%
+  \ifx\insertframesubtitle\@empty\else
+    {\usebeamercolor[fg]{frametitle}\small\insertframesubtitle\par}%
+  \fi
+  \vspace*{0.05cm}%
+}
+
+% ---------------- title page ----------------
+% Use \author{\underline{Name}\textsuperscript{1,2}} and
+% \institute{\textsuperscript{1}University of Zurich\\ \textsuperscript{2}European ...}
+\setbeamertemplate{title page}{%
+  \vspace*{1.6cm}%
+  {\usebeamercolor[fg]{title}\usebeamerfont{title}\inserttitle\par}%
+  \ifx\insertsubtitle\@empty\else
+    \vspace{0.15cm}{\usebeamercolor[fg]{title}\large\insertsubtitle\par}%
+  \fi
+  \vspace{0.75cm}%
+  {\large\insertauthor\par}%
+  \vspace{0.35cm}%
+  {\footnotesize\insertinstitute\par}%
+  \vfill
+}
+
+% ---------------- cover (page 1 of void.pdf) ----------------
+\newcommand{\cernCover}{%
+  {\setbeamertemplate{footline}{}%
+   \setbeamertemplate{background canvas}{%
+     \begin{tikzpicture}[remember picture,overlay]
+       \fill[cernblue] (current page.south west) rectangle (current page.north east);
+       \IfFileExists{\cern@logodir void.pdf}{%
+         \node[inner sep=0] at (current page.center) {\includegraphics[page=1,width=\paperwidth]{\cern@logodir void.pdf}};}{%
+         \node[inner sep=0] at ([yshift=-0.1cm]current page.center) {\cern@logo{3.5cm}};}
+     \end{tikzpicture}}%
+   \begin{frame}[plain]\end{frame}}%
+}
+
+% ---------------- helpers for physics slides ----------------
+% big headline number: \headline{7.16 \pm 0.45}{kHz}{muon rate at the SST}
+\newcommand{\headline}[3]{%
+  \begin{center}
+    {\usebeamercolor[fg]{structure}\fontsize{24}{28}\selectfont $#1$\,\textrm{#2}}\\[0.1cm]
+    {\color{cerngray}\small #3}
+  \end{center}}
+% small grey note at the bottom of the text area
+\newcommand{\slidenote}[1]{\vfill{\color{cerngray}\scriptsize #1\par}}
