@@ -1,0 +1,204 @@
+{
+ "name": "R3f_fins_ubt_strips",
+ "description": "R3 without the SBT, with fins: 7 straw fins per side at z = 31.63, 39.88, 48.13, 56.38, 64.63, 72.88, 81.13 m (equispaced, vessel exit to 50 cm after the UBT), 2 m reach, full vessel height; UBT tile plane 3.4 x 2.7 m^2; no SBT. Example design, not a reference.",
+ "frame": "fairship-2026",
+ "ubt_layout": "2026-11-11",
+ "ubt": {
+  "y_lo": -1.35,
+  "y_hi": 1.35
+ },
+ "fins": [
+  {
+   "side": "right",
+   "z": 31.63,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -1.5,
+   "y_hi": 1.5,
+   "stations": 1
+  },
+  {
+   "side": "left",
+   "z": 31.63,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -1.5,
+   "y_hi": 1.5,
+   "stations": 1
+  },
+  {
+   "side": "right",
+   "z": 39.88,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -2.0,
+   "y_hi": 2.0,
+   "stations": 1
+  },
+  {
+   "side": "left",
+   "z": 39.88,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -2.0,
+   "y_hi": 2.0,
+   "stations": 1
+  },
+  {
+   "side": "right",
+   "z": 48.13,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -2.0,
+   "y_hi": 2.0,
+   "stations": 1
+  },
+  {
+   "side": "left",
+   "z": 48.13,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -2.0,
+   "y_hi": 2.0,
+   "stations": 1
+  },
+  {
+   "side": "right",
+   "z": 56.38,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -2.5,
+   "y_hi": 2.5,
+   "stations": 1
+  },
+  {
+   "side": "left",
+   "z": 56.38,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -2.5,
+   "y_hi": 2.5,
+   "stations": 1
+  },
+  {
+   "side": "right",
+   "z": 64.63,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -2.5,
+   "y_hi": 2.5,
+   "stations": 1
+  },
+  {
+   "side": "left",
+   "z": 64.63,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -2.5,
+   "y_hi": 2.5,
+   "stations": 1
+  },
+  {
+   "side": "right",
+   "z": 72.88,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -3.0,
+   "y_hi": 3.0,
+   "stations": 1
+  },
+  {
+   "side": "left",
+   "z": 72.88,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -3.0,
+   "y_hi": 3.0,
+   "stations": 1
+  },
+  {
+   "side": "right",
+   "z": 81.13,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -3.0,
+   "y_hi": 3.0,
+   "stations": 1
+  },
+  {
+   "side": "left",
+   "z": 81.13,
+   "tilt": 0,
+   "technology": "straw",
+   "length": 2.0,
+   "y_lo": -3.0,
+   "y_hi": 3.0,
+   "stations": 1
+  }
+ ],
+ "detector": {
+  "v0_rule": true
+ },
+ "shield_strips": {
+  "layers": [
+   29.39,
+   29.59,
+   29.79
+  ],
+  "stations": [
+   [
+    -0.9,
+    -0.15
+   ],
+   [
+    -0.9,
+    0.15
+   ],
+   [
+    -1.2,
+    -0.15
+   ],
+   [
+    -1.2,
+    0.15
+   ],
+   [
+    0.9,
+    -0.15
+   ],
+   [
+    0.9,
+    0.15
+   ],
+   [
+    1.2,
+    -0.15
+   ],
+   [
+    1.2,
+    0.15
+   ]
+  ],
+  "size": 0.3,
+  "rule": "point",
+  "theta": 0.01
+ },
+ "ubt_tiles": {
+  "half_x": 1.7,
+  "y_lo": -1.35,
+  "y_hi": 1.35
+ }
+}
